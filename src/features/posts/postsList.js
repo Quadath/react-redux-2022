@@ -3,11 +3,13 @@ import { selectAllPosts } from "./postSlice";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import PostAuthor from "./postAuthor";
 import TimeAgo from "./timeAgo";
+import ReactionButtons from "./reactionButtons";
 
 const PostsList = () => {
     const posts = useSelector(selectAllPosts)
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
 
-    const renderedPosts = posts.map(post => (
+    const renderedPosts = orderedPosts.map(post => (
         <ListGroupItem key={post.id}>
         <article>
             <h3>{post.title}</h3>
@@ -16,6 +18,7 @@ const PostsList = () => {
                 <PostAuthor userId={post.userId}/>
                 <TimeAgo timestamp={post.date}/>
             </p>
+            <ReactionButtons post={post}/>
         </article>
         </ListGroupItem>
     ));
